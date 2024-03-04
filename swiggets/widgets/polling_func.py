@@ -1,11 +1,15 @@
+from pydantic import validate_call
+
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 
 
 class PollingFunc(Polling):
+    @validate_call(config=dict(validate_default=True))
     def __init__(self, *, func,
                  interval=5,
-                 format_full=lambda res: f'{res}',
-                 format_short=None,
+                 format_full: Formatter = lambda res: f'{res}',
+                 format_short: Formatter = None,
                  lazy_updates=True,
                  **kwargs):
         super().__init__(interval=interval, **kwargs)
@@ -18,7 +22,6 @@ class PollingFunc(Polling):
     async def loop(self):
         res = self.func()
         self.block.full_text = self.format_full(res)
-        if self.format_short is not None:
-            self.block.short_text = self.format_short(res)
+        self.block.short_text = self.format_short(res)
         if not self.lazy_updates:
             self.update()

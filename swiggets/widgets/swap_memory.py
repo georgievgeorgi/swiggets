@@ -1,6 +1,7 @@
 from psutil import swap_memory
 from pydantic import validate_call
 
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 from ..misc import Icons, Substitute, block_lower_percent
 
@@ -9,11 +10,10 @@ class SwapMemory(Polling):
     @validate_call(config=dict(validate_default=True))
     def __init__(
         self,
-        format_full=(lambda *,
-                     percent_icon, percent, **kw:
-                         f'''{Icons.download} {percent_icon} {
-                             percent:.1f}%'''),
-        format_short=None,
+        format_full: Formatter = (
+            lambda *, percent_icon, percent, **kw:
+            f'''{Icons.download} {percent_icon} {percent:.1f}%'''),
+        format_short: Formatter = None,
         interval: int = 5,
         percent_icon: Substitute = block_lower_percent,
         threshold: float = 85,
@@ -37,8 +37,7 @@ class SwapMemory(Polling):
                'sout': swap.sout,
                }
         self.block.full_text = self.format_full(**res)
-        if self.format_short is not None:
-            self.block.short_text = self.format_short.format(**res)
+        self.block.short_text = self.format_short(**res)
         if swap.percent > self.threshold:
             self.block.urgent = True
         else:

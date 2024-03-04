@@ -47,7 +47,7 @@ dispatcher.bulk_append_widgets([
     VirtualMemory(separator=False),
     SwapMemory(),
     SensorsBattery(),
-    DateTime(),
+    DateTime(time_zones=['Europe/Sofia', 'Europe/Madrid', 'Zulu']),
     XKBLayoutSway(),
     # XKBSwitch(),
 

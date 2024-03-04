@@ -1,4 +1,4 @@
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
 from pydantic import BaseModel, Field, NonNegativeInt, StrictStr, color
 
@@ -19,10 +19,10 @@ class Block(BaseModel):
     name: str = Field(..., allow_mutation=False)
     instance: str = Field(..., allow_mutation=False)
     full_text: str = None
-    short_text: str = None
-    color: Color = None
-    background: Color = None
-    border: Color = None
+    short_text: Optional[str] = None
+    color: Optional[Color] = None
+    background: Optional[Color] = None
+    border: Optional[Color] = None
     border_top: NonNegativeInt = 1
     border_right: NonNegativeInt = 1
     border_bottom: NonNegativeInt = 1

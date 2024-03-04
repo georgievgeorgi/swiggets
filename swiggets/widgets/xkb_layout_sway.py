@@ -5,6 +5,7 @@ import re
 from pydantic import validate_call
 
 from ..core.click_event import MouseButton
+from ..core.formatter import Formatter
 from ..core.streaming_cmd import StreamingCmd
 from ..misc import Flags, Substitute
 
@@ -13,7 +14,9 @@ class XKBLayoutSway(StreamingCmd):
     regex = re.compile(r'(?P<layout>[^(]+)(\((?P<variant>.*)\))?')
 
     @validate_call(config=dict(validate_default=True))
-    def __init__(self, format_full='{flag}', format_short=None,
+    def __init__(self,
+                 format_full: Formatter = '{flag}',
+                 format_short: Formatter = None,
                  flags: Substitute = {
                      r'English.*': Flags.US,
                      r'Bulgarian.*': Flags.BG,
@@ -74,6 +77,5 @@ class XKBLayoutSway(StreamingCmd):
             flag=self.flags(data),
             full=data,
         )
-        self.block.full_text = self.format_full.format(**dct)
-        if self.format_short is not None:
-            self.block.short_text = self.format_short.format(**dct)
+        self.block.full_text = self.format_full(**dct)
+        self.block.short_text = self.format_short(**dct)

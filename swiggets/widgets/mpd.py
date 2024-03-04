@@ -5,6 +5,7 @@ from mpd.asyncio import MPDClient
 from pydantic import BaseModel, field_validator, validate_call
 
 from ..core.click_event import MouseButton
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 from ..misc import Icons, Slider, Substitute
 
@@ -87,8 +88,17 @@ class MPD(Polling):
         host,
         port=6600,
         auto_connect=False,
-        song_format_full='{song.artist}-{song.album}-{song.title} ({felapsed}/{fduration}) {status.volume}% {volume_icon}',  # noqa: E501
-        song_format_short='{song.artist_short}-{song.album_short}-{song.title_short} ({felapsed}/{fduration}) {status.volume}% {volume_icon}',  # noqa: E501
+        song_format_full: Formatter = '{song.artist}-{song.album}-{song.title} ({felapsed}/{fduration}) {status.volume}% {volume_icon}',  # noqa: E501
+        song_format_short: Formatter = (
+            lambda status, song, volume_icon, felapsed, fduration, **kw: (
+            f'''{song.artist if len(song.artist) < 15 else
+                f"{song.artist[:10]}‥{song.artist[-4:]}"}-{
+                    song.album if len(song.album) < 15 else
+                    f"{song.album[:10]}‥{song.album[-4:]}"}-{
+                        song.title if len(song.title) < 15 else
+                        f"{song.title[:10]}‥{song.title[-4:]}"} ({felapsed}/{
+                            fduration}) {status.volume}% {volume_icon}'''
+            )),
         slider_width_full=30,
         slider_width_short=8,
         icon_connect_switch: Tuple[str, str] = (
@@ -232,8 +242,8 @@ class MPD(Polling):
             status=status, song=curr_song,
             curr_song=curr_song, next_song=next_song,
             )
-        self.song_block.full_text = self.song_format_full.format(**data)
-        self.song_block.short_text = self.song_format_short.format(**data)
+        self.song_block.full_text = self.song_format_full(**data)
+        self.song_block.short_text = self.song_format_short(**data)
         if status.elapsed:
             pos = status.elapsed/status.duration
             self.slider_block.full_text = self.slider_full(pos)

@@ -1,12 +1,15 @@
 import aiofiles
+from pydantic import validate_call
 
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 from ..misc import Icons
 
 
 class FanSpeed(Polling):
-    def __init__(self, format_full=Icons.fan+' {speed}',
-                 format_short=None,
+    @validate_call(config=dict(validate_default=True))
+    def __init__(self, format_full: Formatter = Icons.fan+' {speed}',
+                 format_short: Formatter = None,
                  interval: int = 5,
                  **kw_args):
         super().__init__(interval=interval,
@@ -22,5 +25,6 @@ class FanSpeed(Polling):
                     continue
                 else:
                     speed = line.split()[1]
-        self.block.full_text = self.format_full.format(speed=speed)
+        self.block.full_text = self.format_full(speed=speed)
+        self.block.short_text = self.format_short(speed=speed)
         # self.update()

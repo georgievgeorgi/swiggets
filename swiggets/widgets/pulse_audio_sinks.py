@@ -1,10 +1,10 @@
 import logging
-from typing import Optional
 
 import pulsectl_asyncio
 from pydantic import validate_call
 
 from ..core.click_event import MouseButton
+from ..core.formatter import Formatter
 from ..core.pulse_audio_base import PulseAudioBase
 from ..misc import Icons, Substitute
 
@@ -19,8 +19,8 @@ class PulseAudioSinks(PulseAudioBase):
                      False: Icons.volume_off,
                  },
                  device_icons: Substitute = {},
-                 device_format_full: str = '{icon} {volume:.0f}% ',
-                 device_format_short: Optional[str] = None,
+                 device_format_full: Formatter = '{icon} {volume:.0f}% ',
+                 device_format_short: Formatter = None,
                  **kwargs):
         super().__init__(**kwargs)
         self.device_icons = device_icons
@@ -34,14 +34,12 @@ class PulseAudioSinks(PulseAudioBase):
         has_enabled = False
         for pa_i in pa_info:
             block = self.get_block_by_name(pa_i.name)
-            block.full_text = self.device_format_full.format(
-                icon=self.device_icons(pa_i.name),
-                volume=pa_i.volume.value_flat*100)
-
-            if self.device_format_short is not None:
-                block.short_text = self.device_format_short.format(
-                    icon=self.device_icons(pa_i.name),
-                    volume=pa_i.volume.value_flat*100)
+            dct = {
+                'icon': self.device_icons(pa_i.name),
+                'volume': pa_i.volume.value_flat*100,
+            }
+            block.full_text = self.device_format_full(**dct)
+            block.short_text = self.device_format_short(**dct)
 
             if pa_i.mute == 0:
                 has_enabled = True

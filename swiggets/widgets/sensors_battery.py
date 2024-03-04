@@ -1,6 +1,7 @@
 from psutil import sensors_battery
 from pydantic import validate_call
 
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 from ..misc import Icons, Substitute, battery_percent
 
@@ -9,8 +10,8 @@ class SensorsBattery(Polling):
     @validate_call(config=dict(validate_default=True))
     def __init__(
         self,
-        format_full='{battery_icon} {percent:.2f}% {mins_left:.1f}min {plug_icon}',  # noqa: E501
-        format_short=None,
+        format_full: Formatter = '{battery_icon} {percent:.2f}% {mins_left:.1f}min {plug_icon}',  # noqa: E501
+        format_short: Formatter = None,
         interval: int = 5,
         battery_icon: Substitute = battery_percent,
         plug_icon: Substitute = {
@@ -35,9 +36,8 @@ class SensorsBattery(Polling):
                'percent': bat.percent,
                'mins_left': bat.secsleft/60,
                }
-        self.block.full_text = self.format_full.format(**res)
-        if self.format_short is not None:
-            self.block.short_text = self.format_short.format(**res)
+        self.block.full_text = self.format_full(**res)
+        self.block.short_text = self.format_short(**res)
         if bat.percent < self.threshold:
             self.block.urgent = True
         else:

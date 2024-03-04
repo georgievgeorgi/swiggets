@@ -1,13 +1,17 @@
 import asyncio
 
+from pydantic import validate_call
+
+from ..core.formatter import Formatter
 from ..core.polling import Polling
 
 
 class PollingExec(Polling):
+    @validate_call(config=dict(validate_default=True))
     def __init__(self, *, command,
-                 format_full=lambda stdout, stderr, retcode:
-                     f'{stdout} ({stderr}) ({retcode})',
-                 format_short=None,
+                 format_full: Formatter = lambda stdout, stderr, return_code:
+                     f'{stdout} ({stderr}) ({return_code})',
+                 format_short: Formatter = None,
                  interval=5,
                  lazy_updates=True,
                  **kwargs):
@@ -24,14 +28,12 @@ class PollingExec(Polling):
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE)
         stdout, stderr = await proc.communicate()
-        self.block.full_text = self.format_full(stdout.decode().strip(),
-                                                stderr.decode().strip(),
-                                                proc.returncode)
-
-        if self.format_short is not None:
-            self.block.short_text = self.format_short(stdout.decode().strip(),
-                                                      stderr.decode().strip(),
-                                                      proc.returncode)
+        dct = {'stdout': stdout.decode().strip(),
+               'stderr': stderr.decode().strip(),
+               'return_code': proc.returncode,
+               }
+        self.block.full_text = self.format_full(**dct)
+        self.block.short_text = self.format_short(**dct)
 
         if not self.lazy_updates:
             self.update()
