@@ -3,7 +3,8 @@ from pydantic import validate_call
 
 from ..core.formatter import Formatter
 from ..core.polling import Polling
-from ..misc import Icons, Substitute, battery_percent
+from ..core.substitute import Substitute
+from ..misc import Icons, battery_percent
 
 
 class SensorsBattery(Polling):

@@ -3,8 +3,9 @@ import asyncio
 from pydantic import validate_call
 
 from ..core.click_event import MouseButton
+from ..core.substitute import Substitute
 from ..core.switch import Switch
-from ..misc import Icons, Substitute
+from ..misc import Icons
 
 
 class NotificationSwitchDunst(Switch):

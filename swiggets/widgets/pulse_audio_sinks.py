@@ -6,7 +6,8 @@ from pydantic import validate_call
 from ..core.click_event import MouseButton
 from ..core.formatter import Formatter
 from ..core.pulse_audio_base import PulseAudioBase
-from ..misc import Icons, Substitute
+from ..core.substitute import Substitute
+from ..misc import Icons
 
 logger = logging.getLogger(__name__)
 

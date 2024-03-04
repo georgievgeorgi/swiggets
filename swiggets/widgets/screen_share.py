@@ -5,8 +5,9 @@ import sys
 from pydantic import validate_call
 
 from ..core.click_event import MouseButton
+from ..core.substitute import Substitute
 from ..core.switch import Switch
-from ..misc import Icons, Substitute
+from ..misc import Icons
 
 xrandr_sh = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])),
                          'bin/xrandr-share.sh')

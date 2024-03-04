@@ -1,5 +1,5 @@
+from ..core.substitute import Substitute
 from .icons import Icons
-from .substitute import Substitute
 
 block_lower_percent = Substitute({
     (float('-inf'), 15.): Icons.block_lower_1_8,

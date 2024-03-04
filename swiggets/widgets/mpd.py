@@ -7,7 +7,8 @@ from pydantic import BaseModel, field_validator, validate_call
 from ..core.click_event import MouseButton
 from ..core.formatter import Formatter
 from ..core.polling import Polling
-from ..misc import Icons, Slider, Substitute
+from ..core.substitute import Substitute
+from ..misc import Icons, Slider
 
 logger = logging.getLogger(__name__)
 

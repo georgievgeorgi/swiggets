@@ -7,7 +7,8 @@ from pydantic import validate_call
 from ..core.click_event import MouseButton
 from ..core.formatter import Formatter
 from ..core.streaming_cmd import StreamingCmd
-from ..misc import Flags, Substitute
+from ..core.substitute import Substitute
+from ..misc import Flags
 
 
 class XKBLayoutSway(StreamingCmd):

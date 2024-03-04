@@ -1,5 +1,5 @@
+from ..core.substitute import Substitute
 from .icons import Icons
-from .substitute import Substitute
 
 battery_percent = Substitute({
     (float('-inf'), 5): Icons.battery_md_0,
