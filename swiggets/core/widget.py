@@ -17,6 +17,8 @@ class Widget(abc.ABC):
             self.kw_block_default['align'] = 'center'
         if 'min_width' not in self.kw_block_default:
             self.kw_block_default['min_width'] = 10
+        if 'full_text' not in self.kw_block_default:
+            self.kw_block_default['full_text'] = ''
 
     @abc.abstractmethod
     async def init(self):
@@ -58,7 +60,6 @@ class Widget(abc.ABC):
         kw = dict(self.kw_block_default)
         kw.update(kw_block)
         block = Block(instance=hex(id(self)), **kw)
-        block.full_text = ''
 
         if block.name in self.block_names():
             raise ValueError('name {block.name} already exists')
