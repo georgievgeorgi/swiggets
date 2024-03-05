@@ -1,5 +1,8 @@
 class Icons:
+    telegram = ''
+    terminal = ''
     firefox = ''
+    notebook_pen = ''
     mail = ''
     volume_slacsh = ''
     volume_mute = ''

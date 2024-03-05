@@ -5,6 +5,7 @@ from .misc.flags import Flags  # noqa: F401
 from .misc.icons import Icons  # noqa: F401
 from .widgets.date_time import DateTime  # noqa: F401
 from .widgets.fanspeed import FanSpeed  # noqa: F401
+from .widgets.launcher import Launcher  # noqa: F401
 from .widgets.mpd import MPD  # noqa: F401
 from .widgets.notification_switch_dunst import NotificationSwitchDunst  # noqa:
 from .widgets.notification_switch_mako import NotificationSwitchMako  # noqa:
