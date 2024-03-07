@@ -1,3 +1,4 @@
 .*.un~
 .*.swp
 __pycache__
+swidgets.egg-info
