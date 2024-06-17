@@ -17,6 +17,7 @@ from .widgets.pulse_audio_sources import PulseAudioSources  # noqa: F401
 from .widgets.screen_share import ScreenShare  # noqa: F401
 from .widgets.sensors_battery import SensorsBattery  # noqa: F401
 from .widgets.swap_memory import SwapMemory  # noqa: F401
+from .widgets.time_track import TimeTrack  # noqa: F401
 from .widgets.virtual_memory import VirtualMemory  # noqa: F401
 from .widgets.xkb_layout_sway import XKBLayoutSway  # noqa: F401
 from .widgets.xkb_switch import XKBSwitch  # noqa: F401

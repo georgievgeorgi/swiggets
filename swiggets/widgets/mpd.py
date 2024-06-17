@@ -93,7 +93,7 @@ class MPD(Polling):
         song_format_short: Formatter = (
             lambda status, song, volume_icon, felapsed, fduration, **kw: (
             f'''{song.artist if len(song.artist) < 15 else
-                f"{song.artist[:10]}‥{song.artist[-4:]}"}-{
+                 f"{song.artist[:10]}‥{song.artist[-4:]}"}-{
                     song.album if len(song.album) < 15 else
                     f"{song.album[:10]}‥{song.album[-4:]}"}-{
                         song.title if len(song.title) < 15 else
@@ -236,10 +236,10 @@ class MPD(Polling):
             volume_icon=self.icon_volume(status.volume),
             felapsed=(f'''{
                 status.elapsed//60:.0f}:{
-                    status.elapsed%60:02.0f}''' if status.elapsed else ''),
+                    status.elapsed % 60:02.0f}''' if status.elapsed else ''),
             fduration=(f'''{
                 curr_song.duration//60:.0f}:{
-                    curr_song.duration%60:02.0f}''' if curr_song.duration else ''),  # noqa: E501
+                    curr_song.duration % 60:02.0f}''' if curr_song.duration else ''),  # noqa: E501
             status=status, song=curr_song,
             curr_song=curr_song, next_song=next_song,
             )

@@ -87,8 +87,8 @@ class Dispatcher:
     async def _event_processor(self):
         while True:
             try:
-                signal = (await self._stdin.readline()
-                          ).decode().strip('\n\r, \t')
+                signal = await self._stdin.readline()
+                signal = (signal).decode().strip('\n\r, \t')
                 if signal == '[':
                     signal = (await self._stdin.readline()
                               ).decode().strip('\n\r, \t')
