@@ -1,4 +1,6 @@
 class Icons:
+    stopwatch = ''
+    hourglass = ''
     telegram = ''
     terminal = ''
     firefox = ''
@@ -67,6 +69,7 @@ class Icons:
     stop = '⏹'
     previous_track = '⏮'
     next_track = '⏭'
+    radio = ''
     # block elements https://en.wikipedia.org/wiki/Block_Elements
     block_upper_4_8 = '▀'  # Upper half block
     block_lower_1_8 = '▁'  # Lower one eighth block

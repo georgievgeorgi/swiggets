@@ -29,9 +29,9 @@ class DateTime(Polling):
             self, *,
             format_full: Formatter = (lambda now, tzinfo:
                                       Icons.clock +
-                                      f' {now:%F %T %Z} ({tzinfo})'
+                                      f' {now:%a %F %T %Z} ({tzinfo})'
                                       ),
-            format_short: Formatter = Icons.clock + ' {now:%F %T %Z}',
+            format_short: Formatter = Icons.clock + ' {now:%a %F %R %Z}',
             time_zones: List[TZinfo] = [None, 'Zulu'],
             interval=1,
             **kwargs):
