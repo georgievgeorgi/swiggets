@@ -20,6 +20,7 @@ Here is a full list of the implemented widgets:
 - ScreenShare: splits super wide screen to a 1024x768 and the rest
 - SensorsBattery
 - SwapMemory
+- TimeTrack
 - VirtualMemory
 - XKBLayoutSway
 - XKBSwitch
