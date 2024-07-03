@@ -203,6 +203,7 @@ class TaskManager:
         # prevent data loss in case of crash
         if self.is_running:
             if time.time() > self.stop_time + self.update_interval/2:
+                self.stop_time = time.time() + self.update_interval/2
                 self.add_update_record_db()
 
     async def import_csv(self):
