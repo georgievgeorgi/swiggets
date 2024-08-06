@@ -2,6 +2,7 @@ import asyncio
 import csv
 import logging
 import os.path
+from os import uname as os_uname
 import sqlite3
 import time
 import tkinter as tk
@@ -222,6 +223,7 @@ class TaskManager:
                     self.insert_replace_db(*line)
 
     async def export_csv(self):
+        hostname = os_uname()[1]
         with ThreadPoolExecutor(max_workers=1) as executor:
             future = executor.submit(lambda: filedialog.asksaveasfile(
                 title='Export timetrack to csv',
@@ -229,7 +231,7 @@ class TaskManager:
                 defaultextension='.csv',
                 initialdir=os.path.dirname(self.sqlite_db),
                 initialfile=f"{time.strftime(
-                    '%FT%TZ', time.gmtime())}-{os.path.basename(self.sqlite_db)}.csv",
+                    '%FT%TZ', time.gmtime())}-{os.path.basename(self.sqlite_db)}-{hostname}.csv",
             ))
             while future.running():
                 await asyncio.sleep(.1)
@@ -276,7 +278,7 @@ class TaskManager:
             root.destroy()
 
         root.title('Time Tracker')
-        root.geometry('500x300')
+        root.geometry('500x400')
         root.wm_attributes('-type', 'splash')
         root.bind('<Escape>', root.destroy)
         proj_frame = tk.LabelFrame(root, text='Project')
