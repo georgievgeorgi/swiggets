@@ -22,18 +22,26 @@ class PulseAudioSources(PulseAudioBase):
                  device_icons: Substitute = {},
                  device_format_full: Formatter = '{icon} {volume:.0f}% ',
                  device_format_short: Formatter = None,
+                 hide_monitor_devices: bool = True,
                  **kwargs):
         super().__init__(**kwargs)
         self.device_icons = device_icons
         self.main_icon = main_icon
         self.device_format_full = device_format_full
         self.device_format_short = device_format_short
+        self.hide_monitor_devices = hide_monitor_devices
 
     def process_vals(self, pa_info):
         self.add_remove_device(pa_info)
 
         has_enabled = False
         for pa_i in pa_info:
+            if pa_i.mute == 0:
+                has_enabled = True
+
+            if self.hide_monitor_devices:
+                if pa_i.name.endswith('monitor'):
+                    continue
             block = self.get_block_by_name(pa_i.name)
             dct = {
                 'icon': self.device_icons(pa_i.name),
@@ -43,7 +51,6 @@ class PulseAudioSources(PulseAudioBase):
             block.short_text = self.device_format_short(**dct)
 
             if pa_i.mute == 0:
-                has_enabled = True
                 block.urgent = True
             else:
                 block.urgent = False
@@ -70,8 +77,10 @@ class PulseAudioSources(PulseAudioBase):
                     await self.pulse.volume_change_all_chans(source, -.05)
                 elif evt.button == MouseButton.left:
                     await self.pulse.source_default_set(source)
-                elif evt.button == MouseButton.right:
+                elif evt.button == MouseButton.middle:
                     await self.pulse.volume_set_all_chans(source, 0)
+                elif evt.button == MouseButton.right:
+                    await self.pulse.mute(source, mute=True)
                 else:
                     logger.info(f'button {evt.button} not handled')
         except Exception as e:
