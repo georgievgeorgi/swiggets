@@ -15,7 +15,9 @@ class VirtualMemory(Polling):
             lambda *, percent_icon, percent, free, **kw:
             f'''{Icons.memory} {percent_icon} {
                 percent:.1f}% {free/(1 << 30):.2f}GiB'''),
-        format_short: Formatter = None,
+        format_short: Formatter = (
+            lambda *, percent, **kw:
+            f'''{Icons.memory} {percent:.0f}% '''),
         interval: int = 5,
         percent_icon: Substitute = block_lower_percent,
         threshold: float = 85,
