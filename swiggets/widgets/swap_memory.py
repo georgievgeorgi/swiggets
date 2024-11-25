@@ -14,7 +14,9 @@ class SwapMemory(Polling):
         format_full: Formatter = (
             lambda *, percent_icon, percent, **kw:
             f'''{Icons.download} {percent_icon} {percent:.1f}%'''),
-        format_short: Formatter = None,
+        format_short: Formatter = (
+            lambda *, percent, **kw:
+            f'''{Icons.download} {percent:.0f}%'''),
         interval: int = 5,
         percent_icon: Substitute = block_lower_percent,
         threshold: float = 85,
