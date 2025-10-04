@@ -9,8 +9,8 @@ from swiggets import *
 
 logging.basicConfig(
     level=20,
-    filename='/tmp/logger',
-    filemode='w',
+    # filename='/tmp/logger',
+    # filemode='w',
     format="%(name)s\t%(funcName)s()\t%(levelname)s:\t%(message)s"
 )
 
@@ -20,9 +20,7 @@ logger = logging.getLogger(__name__)
 dispatcher = Dispatcher()
 dispatcher.bulk_append_widgets([
     MPD(host='home-media'),
-    ScreenShare(),
     NotificationSwitchMako(),
-    # NotificationSwitchDunst(),
     PulseAudioSources(device_icons={
         r'alsa_input.usb.*HD_WEBCAM.*': Icons.video,
         r'.*.monitor': Icons.repeat,
@@ -49,7 +47,6 @@ dispatcher.bulk_append_widgets([
     SensorsBattery(),
     DateTime(time_zones=['Europe/Sofia', 'Europe/Madrid', 'Zulu']),
     XKBLayoutSway(),
-    # XKBSwitch(),
     Launcher(format=Icons.firefox, command='firefox',
              separator=False, color='#ff6611'),
     Launcher(format=Icons.telegram, command='telegram-desktop',
