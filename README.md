@@ -41,35 +41,61 @@ dispatcher.append_widget(PollingExec(command='uptime', format_full=lambda stdout
 asyncio.run(dispatcher.run_forever())
 ```
 
-# Requirements
-
-On Arch / Artix linux one can install the dependencies as:
+# How to install on Arch / Artix linux
 
 ```bash
-sudo pacman -S python-psutil                \
-               python-pydantic-extra-types  \
-               python-mpd2                  \
-               python-aiofiles              \
-               noto-fonts-emoji             \
-               python-pulsectl              \
-               xkb-switch-i3
-
-yaourt -S aur/python-pulsectl-asyncio
+cd /tmp
+mkdir swiggets
+cd swiggets
+curl -O 'https://raw.githubusercontent.com/georgievgeorgi/swiggets/refs/heads/master/PKGBUILD'
+yaourt --pkgbuild --install
 ```
 
-# How to download
+Alternatively, if you do not like to use yaourt or similar you can satisfy the depenendencies yourself and prepare the package in install using
+
 ```bash
-mkdir -p ~/git
-cd ~/git
-git clone https://github.com/georgievgeorgi/swiggets.git
+makepkg
+sudo pacman -U swiggets-*-any.pkg.tar.zst
+```
+
+# How to run
+## For i3
+
+Copy the provided examples to your `.config` and modify them
+
+```bash
+cp /usr/share/swiggets/swiggets-i3-example.py $HOME/.config/i3/swiggets-i3.py
+```
+
+Then add it to your `~/.config/i3/config`
+
+```config
+bar {
+    i3bar_command i3bar
+    status_command python $HOME/.config/i3/swiggets-i3.py
+    # ...
+}
+```
+
+## For sway
+
+Copy the provided examples to your `.config` and modify them
+
+```bash
+cp /usr/share/swiggets/swiggets-sway-example.py $HOME/.config/sway/swiggets-sway.py
+```
+
+Then add it to your `~/.config/i3/config`
+
+```config
+bar {
+    swaybar_command swaybar
+    status_command python $HOME/.config/sway/swiggets-sway.py
+    # ...
+}
 ```
 
 
-# In your i3/config or sway/config
-Make sure that in the `bar` section of your `~/.config/i3/config` or `~/.config/sway/config` you provide a path to a main file that uses the library. For example:
-```
-status_command $HOME/git/swiggets/sway.py
-```
 
 # Handy bindings
 Having these keybindings in your `config` file will let you use Alt_R as a Push-to-talk button (PTT)
