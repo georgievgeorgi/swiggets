@@ -21,3 +21,4 @@ from .widgets.time_track import TimeTrack  # noqa: F401
 from .widgets.virtual_memory import VirtualMemory  # noqa: F401
 from .widgets.xkb_layout_sway import XKBLayoutSway  # noqa: F401
 from .widgets.xkb_switch import XKBSwitch  # noqa: F401
+from .widgets.power_supply_uevent import PowerSupplyUevent

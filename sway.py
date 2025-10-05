@@ -60,6 +60,7 @@ dispatcher.bulk_append_widgets([
     # PollingFile(filename='/proc/loadavg'),
     # PollingExec(command='uptime', format_full=lambda stdout, stderr, return_code : f"{stdout[:stdout.find(',')]}", lazy_updates=False),
     # PollingFunc(func=time.time_ns),
+    PowerSupplyUevent(filename='/sys/class/power_supply/axp288_fuel_gauge/uevent'),
     ])
 
 
